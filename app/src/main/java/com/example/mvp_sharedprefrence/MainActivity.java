@@ -8,45 +8,33 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements MainView {
+public class MainActivity extends AppCompatActivity {
 
     EditText nameText;
-    SharedPreferences pref;
-    Presenter presenter;
-
+    Presenter preseneter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        nameText=findViewById(R.id.nameText);
-        pref=getPreferences(MODE_PRIVATE);
-
-        presenter=new MainPresenter(this);
+        nameText = findViewById(R.id.nameText);
+        preseneter=new MainPresenter(this);
     }
 
-
-    public void onSave(boolean result){
-        if(result)
-            Toast.makeText(this, "Saved Successfullty", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
-    }
-
-    //CLICK
     public void save(View view) {
-        presenter.save(nameText.getText().toString());
+        preseneter.save(nameText.getText().toString(),(b)->{
+            if (b)
+                Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
+        });
+
     }
+
     public void load(View view) {
-        presenter.load("name");
-    }
 
-    @Override
-    public void OnSave(boolean success) {
-
-    }
-
-    @Override
-    public void OnLoad(boolean success) {
+        preseneter.load("name",(s)->{
+            nameText.setText(s);
+        });
 
     }
 }

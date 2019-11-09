@@ -1,8 +1,9 @@
 package com.example.mvp_sharedprefrence;
 
-public interface Presenter {
+import androidx.core.util.Consumer;
 
-    public void save(String name);
-    public void load(String name);
+public interface  Presenter {
 
+    void save(String s, Consumer<Boolean> consumer);
+    void load(String s,Consumer<String> consumer);
 }
